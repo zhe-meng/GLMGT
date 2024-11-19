@@ -284,7 +284,7 @@ class Block(nn.Module):
 
 
 class GLMGT(nn.Module):
-    def __init__(self, depth=[3, 4, 8, 3], in_chans=200, num_classes=1000, embed_dim=[64, 128, 320, 512],
+    def __init__(self, in_chans=200, num_classes=1000, patch_size=11, depth=[1], embed_dim=[32],
                  num_head=8, head_dim=64, qk_scale=None, representation_size=None,
                  drop_path_rate=0., 
                  ######## 
@@ -292,8 +292,7 @@ class GLMGT(nn.Module):
                  qk_dims=[None, None, None, None],
                  pre_norm=True,
                  before_attn_dwconv=3,
-                 ffn_expansion_factor=2,
-                 patch_size=11,
+                 ffn_expansion_factor=5,
                  auto_pad=False,
                  mlp_dwconv=False):
         """
@@ -390,18 +389,9 @@ class GLMGT(nn.Module):
 
 if __name__ == '__main__':
     
-    # IP in_chans=200 num_classes=16
-    model = GLMGT( 
-        depth=[1],
-        in_chans = 200,
-        num_classes = 16,
-        embed_dim=[32],
-        before_attn_dwconv=3,
-        ffn_expansion_factor=5,
-        patch_size=11,
-        #-------------------------------
-#         **kwargs
-                    )
+    # for IP dataset in_chans=200 num_classes=16 patchsize=11
+    model = GLMGT(in_chans=200, num_classes=16, patch_size=11)
+
     print(model)
     x = torch.randn(100,1,200,11,11)
     y = model(x)
